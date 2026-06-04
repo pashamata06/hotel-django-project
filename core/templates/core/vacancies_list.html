@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Вакансии</h2>
+    {% if user.is_superuser %}<a href="{% url 'vacancy_create' %}" class="btn btn-success">+ Добавить</a>{% endif %}
+</div>
+<div class="grid">
+    {% for item in vacancies %}
+    <div class="card">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.description|truncatechars:100 }}</p>
+        <p>💰 {{ item.salary }}</p>
+        {% if user.is_superuser %}
+        <a href="{% url 'vacancy_update' item.id %}" class="btn">✏️</a>
+        <a href="{% url 'vacancy_delete' item.id %}" class="btn btn-danger">🗑️</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Новости</h2>
+    {% if user.is_superuser %}<a href="{% url 'news_create' %}" class="btn btn-success">+ Добавить</a>{% endif %}
+</div>
+<div class="grid">
+    {% for news in news_list %}
+    <div class="card">
+        {% if news.image %}<img src="{{ news.image.url }}" style="width:100%; height:150px; object-fit:cover;">{% endif %}
+        <h3>{{ news.title }}</h3>
+        <p>{{ news.summary|truncatechars:100 }}</p>
+        <a href="{% url 'news_detail' news.id %}" class="btn">Читать</a>
+        {% if user.is_superuser %}
+        <a href="{% url 'news_update' news.id %}" class="btn">✏️</a>
+        <a href="{% url 'news_delete' news.id %}" class="btn btn-danger">🗑️</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

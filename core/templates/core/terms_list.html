@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Словарь терминов</h2>
+    {% if user.is_superuser %}<a href="{% url 'term_create' %}" class="btn btn-success">+ Добавить</a>{% endif %}
+</div>
+<div class="grid">
+    {% for term in terms %}
+    <div class="card">
+        <h3>❓ {{ term.question }}</h3>
+        <p>{{ term.answer|truncatechars:100 }}</p>
+        <p style="color:#999;">{{ term.added_date|date:"d.m.Y" }}</p>
+        {% if user.is_superuser %}
+        <a href="{% url 'term_update' term.id %}" class="btn">✏️</a>
+        <a href="{% url 'term_delete' term.id %}" class="btn btn-danger">🗑️</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

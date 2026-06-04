@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Поиск номеров</h2>
+    <form method="get">
+        <input type="text" name="q" placeholder="Номер...">
+        <select name="category">
+            <option value="">Все категории</option>
+            {% for cat in categories %}<option value="{{ cat.id }}">{{ cat.name }}</option>{% endfor %}
+        </select>
+        <select name="sort">
+            <option value="price_asc">Цена ↑</option>
+            <option value="price_desc">Цена ↓</option>
+        </select>
+        <button type="submit">Искать</button>
+    </form>
+</div>
+<div class="grid">
+    {% for room in rooms %}
+    <div class="card">
+        <h3>Номер {{ room.room_number }}</h3>
+        <p>Категория: {{ room.category.name }}</p>
+        <p>Цена: {{ room.category.price_per_night }} BYN/ночь</p>
+        <p>Вместимость: {{ room.category.capacity }} чел.</p>
+    </div>
+    {% empty %}
+    <div class="card">Номеров не найдено</div>
+    {% endfor %}
+</div>
+{% endblock %}

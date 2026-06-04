@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Промокоды</h2>
+    {% if user.is_superuser %}<a href="{% url 'promocode_create' %}" class="btn btn-success">+ Добавить</a>{% endif %}
+</div>
+<h3>Действующие</h3>
+<div class="grid">
+    {% for promo in active %}
+    <div class="card">
+        <h3>{{ promo.code }}</h3>
+        <p>Скидка: {{ promo.discount_percent }}%</p>
+        <p>До: {{ promo.valid_until|date:"d.m.Y" }}</p>
+        {% if user.is_superuser %}
+        <a href="{% url 'promocode_toggle' promo.id %}" class="btn btn-danger">Деактивировать</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<h3>Архив</h3>
+<div class="grid">
+    {% for promo in archive %}
+    <div class="card"><h3>{{ promo.code }}</h3><p>{{ promo.discount_percent }}%</p></div>
+    {% endfor %}
+</div>
+{% endblock %}

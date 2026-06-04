@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отель Luxury - {% block title %}Главная{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; }
+        .header { background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%); color: white; padding: 1rem 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo h1 { font-size: 1.5rem; }
+        .nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .nav a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; transition: background 0.3s; }
+        .nav a:hover { background: rgba(255,255,255,0.1); }
+        .main { min-height: calc(100vh - 150px); padding: 2rem 0; }
+        .card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .btn { display: inline-block; padding: 0.5rem 1rem; background: #3498db; color: white; text-decoration: none; border-radius: 8px; }
+        .btn-danger { background: #e74c3c; }
+        .btn-success { background: #27ae60; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .info-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .info-card { background: white; border-radius: 16px; padding: 1rem; text-align: center; }
+        .footer { background: #1a2a3a; color: white; text-align: center; padding: 1rem; margin-top: 3rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background: #f2f2f2; }
+        input, select, textarea { width: 100%; padding: 8px; margin: 5px 0 15px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>🏨 Отель Luxury</h1></div>
+                <nav class="nav">
+                    <a href="{% url 'home' %}">Главная</a>
+                    <a href="{% url 'about' %}">О компании</a>
+                    <a href="{% url 'news_list' %}">Новости</a>
+                    <a href="{% url 'terms_list' %}">Словарь</a>
+                    <a href="{% url 'contacts' %}">Контакты</a>
+                    <a href="{% url 'vacancies_list' %}">Вакансии</a>
+                    <a href="{% url 'reviews_list' %}">Отзывы</a>
+                    <a href="{% url 'promocodes_list' %}">Промокоды</a>
+                    <a href="{% url 'search_rooms' %}">Номера</a>
+                    <a href="{% url 'calendar' %}">Календарь</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'booking_list' %}">Мои брони</a>
+                        <a href="{% url 'logout' %}">Выйти ({{ user.username }})</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Вход</a>
+                        <a href="{% url 'register' %}">Регистрация</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="card" style="background: #d4edda; color: #155724;">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <form method="post" action="{% url 'set_timezone' %}">
+                {% csrf_token %}
+                <select name="timezone" onchange="this.form.submit()">
+                    <option value="Europe/Minsk">Минск</option>
+                    <option value="Europe/Moscow">Москва</option>
+                </select>
+            </form>
+            <p>Время: {{ current_time|date:"d/m/Y H:i:s" }} ({{ user_timezone }})</p>
+            <p>Погода: {{ weather }} | Курс USD: {{ exchange_rate }} BYN</p>
+        </div>
+    </footer>
+</body>
+</html>

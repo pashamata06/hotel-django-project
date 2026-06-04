@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Бронь #{{ booking.id }}</h2>
+    <p><strong>Клиент:</strong> {{ booking.client.last_name }} {{ booking.client.first_name }}</p>
+    <p><strong>Номер:</strong> {{ booking.room.room_number }} ({{ booking.room.category.name }})</p>
+    <p><strong>Заезд:</strong> {{ booking.check_in|date:"d.m.Y" }}</p>
+    <p><strong>Выезд:</strong> {{ booking.check_out|date:"d.m.Y" }}</p>
+    <p><strong>Сумма:</strong> {{ booking.total_price }} BYN</p>
+    <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
+    <a href="{% url 'booking_list' %}" class="btn">← Назад</a>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Добавить отзыв</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+        <a href="{% url 'reviews_list' %}" class="btn">Отмена</a>
+    </form>
+</div>
+{% endblock %}

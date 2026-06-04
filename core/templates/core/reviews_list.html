@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Отзывы гостей</h2>
+    {% if user.is_authenticated %}<a href="{% url 'review_create' %}" class="btn btn-success">+ Добавить отзыв</a>{% endif %}
+</div>
+<div class="grid">
+    {% for review in reviews %}
+    <div class="card">
+        <h3>{{ review.client.first_name }} {{ review.client.last_name }}</h3>
+        <div>{% for i in "12345"|make_list %}{% if forloop.counter <= review.rating %}⭐{% else %}☆{% endif %}{% endfor %}</div>
+        <p>{{ review.text }}</p>
+        <p style="color:#999;">{{ review.date|date:"d.m.Y H:i" }}</p>
+        {% if user.is_superuser %}
+        <a href="{% url 'review_delete' review.id %}" class="btn btn-danger">🗑️ Удалить</a>
+        {% endif %}
+    </div>
+    {% empty %}
+    <div class="card">Пока нет отзывов</div>
+    {% endfor %}
+</div>
+{% endblock %}

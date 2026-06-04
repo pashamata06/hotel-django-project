@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="info-panel">
+    <div class="info-card"><h3>🌡️ Погода</h3><p>{{ weather }}</p></div>
+    <div class="info-card"><h3>💵 Курс USD</h3><p>{{ exchange_rate }} BYN</p></div>
+    <div class="info-card"><h3>📅 Текущая дата</h3><p>{{ current_time|date:"d/m/Y H:i:s" }}</p></div>
+</div>
+
+<div class="card">
+    <h2>📅 Календарь на {{ current_time|date:"F Y" }}</h2>
+    <table><tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
+        {% for week in calendar_table %}
+        <tr>{% for day in week %}<td>{% if day != 0 %}{{ day }}{% endif %}</td>{% endfor %}</tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% if latest_news %}
+<div class="card">
+    <h2>📰 Последняя новость</h2>
+    <h3>{{ latest_news.title }}</h3>
+    <p>{{ latest_news.summary }}</p>
+    <a href="{% url 'news_detail' latest_news.id %}" class="btn">Читать далее →</a>
+</div>
+{% endif %}
+{% endblock %}

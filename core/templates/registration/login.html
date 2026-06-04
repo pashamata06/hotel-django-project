@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card" style="max-width:400px; margin:0 auto;">
+    <h2>Вход</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <p><label>Логин:</label> <input type="text" name="username" required></p>
+        <p><label>Пароль:</label> <input type="password" name="password" required></p>
+        <button type="submit">Войти</button>
+        <a href="{% url 'register' %}">Нет аккаунта?</a>
+    </form>
+</div>
+{% endblock %}

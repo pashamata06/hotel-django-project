@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between;">
+        <a href="?year={{ prev_year }}&month={{ prev_month }}">← {{ prev_month_name }}</a>
+        <h2>{{ current_month_name }} {{ year }}</h2>
+        <a href="?year={{ next_year }}&month={{ next_month }}">{{ next_month_name }} →</a>
+    </div>
+    <table style="width:100%; text-align:center;">
+        <tr style="background:#3498db; color:white;"><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
+        {% for week in calendar_data %}
+        <tr>{% for day in week %}<td style="padding:8px; border:1px solid #ddd;">{% if day != 0 %}{{ day }}{% endif %}</td>{% endfor %}</tr>
+        {% endfor %}
+    </table>
+    <p>🕒 Ваше время: {{ current_time|date:"d/m/Y H:i:s" }} ({{ user_timezone }})</p>
+    <p>🌍 UTC: {{ utc_time|date:"d/m/Y H:i:s" }}</p>
+</div>
+{% endblock %}

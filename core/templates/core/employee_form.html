@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} сотрудника</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+        <a href="{% url 'contacts' %}" class="btn">Отмена</a>
+    </form>
+</div>
+{% endblock %}

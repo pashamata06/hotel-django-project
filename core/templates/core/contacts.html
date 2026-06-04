@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Наши сотрудники</h2>
+    {% if user.is_superuser %}<a href="{% url 'employee_create' %}" class="btn btn-success">+ Добавить</a>{% endif %}
+</div>
+<div class="grid">
+    {% for emp in employees %}
+    <div class="card">
+        {% if emp.photo %}<img src="{{ emp.photo.url }}" style="width:100%; height:150px; object-fit:cover;">{% endif %}
+        <h3>{{ emp.full_name }}</h3>
+        <p>{{ emp.position }}</p>
+        <p>{{ emp.phone }}</p>
+        <p>{{ emp.email }}</p>
+        {% if user.is_superuser %}
+        <a href="{% url 'employee_update' emp.id %}" class="btn">✏️</a>
+        <a href="{% url 'employee_delete' emp.id %}" class="btn btn-danger">🗑️</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

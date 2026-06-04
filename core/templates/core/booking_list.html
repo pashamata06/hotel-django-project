@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <h2>Мои бронирования</h2>
+    <a href="{% url 'booking_create' %}" class="btn btn-success">+ Новая бронь</a>
+</div>
+<div class="grid">
+    {% for booking in bookings %}
+    <div class="card">
+        <h3>Бронь #{{ booking.id }}</h3>
+        <p>Номер: {{ booking.room.room_number }} ({{ booking.room.category.name }})</p>
+        <p>📅 {{ booking.check_in|date:"d.m.Y" }} → {{ booking.check_out|date:"d.m.Y" }}</p>
+        <p>💰 {{ booking.total_price }} BYN</p>
+        <p>Статус: ✅ {{ booking.get_status_display }}</p>
+        <a href="{% url 'booking_detail' booking.id %}" class="btn">Подробнее</a>
+        <a href="{% url 'booking_update' booking.id %}" class="btn">✏️</a>
+        <a href="{% url 'booking_delete' booking.id %}" class="btn btn-danger">🗑️</a>
+    </div>
+    {% empty %}
+    <div class="card">У вас пока нет бронирований</div>
+    {% endfor %}
+</div>
+{% endblock %}
